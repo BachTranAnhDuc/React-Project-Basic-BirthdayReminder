@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import data from './data.json';
 
 const Birth = () => {
+  const [getPeople, setPeople] = useState(data);
+
+  const removePeople = (id) => {
+    setPeople((pre) => pre.filter((el) => el.id !== id));
+  };
+
+  const removeAll = () => {
+    setPeople([]);
+  };
+
   return (
     <>
-      <h2>24 birthdays today</h2>
-      {data.map((el) => {
+      <h2 className="heading__secondary">{getPeople.length} birthdays today</h2>
+      {getPeople.length === 0 && <p>There is no one at here!</p>}
+      {getPeople.map((el) => {
         const { id, name, age, image } = el;
         return (
           <div key={id} className="birth__detail">
             <img src={image} alt="img" className="birth__img" />
             <h5 className="birth__author">{name}</h5>
             <p className="birth__year">{age} years</p>
-            <button className="btn-remove">
+            <button className="btn-remove" onClick={() => removePeople(id)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="birth__icon"
@@ -46,7 +57,9 @@ const Birth = () => {
         <h5 className="birth__author">Anh Duc</h5>
         <p className="birth__year">29 years</p>
       </div> */}
-      <button className="btn">Clear all</button>
+      <button className="btn" onClick={() => removeAll()}>
+        Clear all
+      </button>
     </>
   );
 };
